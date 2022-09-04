@@ -1,0 +1,43 @@
+USE blog;
+
+CREATE TABLE user (
+	id int primary key auto_increment,
+    username varchar(20) not null unique,
+    password varchar(100) not null,
+    email varchar(100) not null,
+    address varchar(100),
+    userRole varchar(20),
+    createDate timestamp
+)engine=innoDB default charset=utf8;
+
+CREATE TABLE board (
+	id int primary key auto_increment,
+    userId int,
+    title varchar(100) not null,
+    content longtext,
+    readCount int default 0,
+    createDate timestamp,
+    foreign key (userId) references user (id)
+)engine=innoDB default charset=utf8;
+
+CREATE TABLE reply (
+	id int primary key auto_increment,
+    userId int,
+    boardId int,
+    content varchar(300) not null,
+	createDate timestamp,
+    foreign key (userId) references user (id) on delete set null,
+    foreign key (boardId) references board (id) on delete cascade
+)engine=innoDB default charset=utf8;
+
+drop table reply;
+
+select username, password, email, address from user;
+select * from board where title like '%ere%' order by id desc limit 0, 4;
+select * from reply where id = 81;
+
+delete from reply where id between 1 and 84;
+
+SELECT username, password, email, address FROM user WHERE username = '홍길동';
+
+commit;
